@@ -30,3 +30,15 @@ def getContours(img,cThreshold = [100, 100],showCanny = False, minArea = 1000, f
             cv2.drawContours(img,con[4],-1,(0,0,255),3)
 
     return img, finalContours
+
+def reorder(myPoints):
+    myPointsNew = np.zeros_like(myPoints)
+    myPoints = myPoints.reshape((4,2))
+    add = myPoints.sum(1)
+    myPointsNew[0] = myPoints[np.argmin(add)]
+    myPointsNew[3] = myPoints[np.argmax(add)]
+    diff = np.diff(myPoints,axis=1)
+    myPointsNew[1] = myPoints[np.argmin(diff)]
+    myPointsNew[2] = myPoints[np.argmax(diff)]
+    
+    return myPointsNew
